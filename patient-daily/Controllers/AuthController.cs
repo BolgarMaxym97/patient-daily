@@ -31,6 +31,7 @@ namespace patient_daily.Controllers
 
         protected override void Dispose(bool disposing)
         {
+
             if (disposing)
             {
                 db.Dispose();
