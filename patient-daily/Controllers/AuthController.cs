@@ -16,8 +16,6 @@ namespace patient_daily.Controllers
         public IHttpActionResult PostAuth()
         {
             var c = HttpContext.Current;
-            // TODO: need to be finished
-            var test = Crypter.VerifyHashedPassword("AIE0MqrWE4105ddj/NHU0SA1mTYiLHwIqz4yVyjxlMJJy61/s/YwYm5kLvQ3g5CybA==", "newTest6");
             string login = c.Request.Form["login"];
             string password = c.Request.Form["password"];
             bool isHospital = c.Request.Form["isHospital"] == "1";
@@ -42,6 +40,7 @@ namespace patient_daily.Controllers
             {
                 return BadRequest("This login already exist");
             }
+            hospital.password = Crypter.HashPassword(hospital.password);
             db.Hospitals.Add(hospital);
             try
             {
@@ -68,14 +67,16 @@ namespace patient_daily.Controllers
             {
                 return BadRequest("This login already exist");
             }
+            patient.password = Crypter.HashPassword(patient.password);
+            patient.Hospital = db.Hospitals.Where(h => h.id == patient.hospital_id).Single();
             db.Patients.Add(patient);
             try
             {
                 db.SaveChanges();
             }
-            catch (System.Exception)
+            catch (System.Exception err)
             {
-                return BadRequest(ModelState);
+                return BadRequest(err.ToString());
             }
             return Ok(patient);
         }
@@ -92,12 +93,17 @@ namespace patient_daily.Controllers
 
         private IEnumerable<Patient> PatientFind(string login, string password)
         {
-            return db.Patients.Where(p => p.login == login).Where(p => p.password == password).Include(p => p.Hospital);
+            return db.Patients.Where(p => p.login == login).Where(p => p.password == Crypter.HashPassword(password)).Include(p => p.Hospital);
         }
 
-        private IEnumerable<Hospital> HospitalFind(string login, string password)
+        private object HospitalFind(string login, string password)
         {
-            return db.Hospitals.Where(p => p.login == login).Include(h => h.Patients);
+            Hospital hospital = db.Hospitals.Where(p => p.login == login).Include(h => h.Patients).Single();
+            if (!Crypter.VerifyHashedPassword(hospital.password, password))
+            {
+                return new object();
+            }
+            return hospital;
         }
 
         private bool PatientFindByLogin(string login)

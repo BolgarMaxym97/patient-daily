@@ -17,8 +17,7 @@ namespace patient_daily.Models
         public string phone { get; set; }
         public string email { get; set; }
         public string login { get; set; }
-        private string _password { get; set; }
-        public string password { get { return _password; } set { _password = Crypter.HashPassword(value); } }
+        public string password { get; set; }
         public int? status { get; set; }
         public DateTime? created_at { get; set; } = DateTime.Now;
         public DateTime? updated_at { get; set; } = DateTime.Now;
