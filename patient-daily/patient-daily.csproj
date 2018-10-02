@@ -209,6 +209,7 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Helpers\Crypter.cs" />
     <Compile Include="Models\Hospital.cs" />
     <Compile Include="Models\MedicineContext.cs" />
     <Compile Include="Models\Patient.cs" />

@@ -12,7 +12,7 @@ namespace patient_daily.Controllers
     public class HospitalsController : ApiController
     {
         MedicineContext db = new MedicineContext();
-        // GET api/hospitals
+        // GET api/v1/hospitals
         public IEnumerable<Hospital> Get()
         {
             var hospitals = db.Hospitals.Include(h => h.Patients);
