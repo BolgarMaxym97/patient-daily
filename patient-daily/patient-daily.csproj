@@ -205,6 +205,7 @@
     <Compile Include="Controllers\AuthController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\HospitalsController.cs" />
+    <Compile Include="Controllers\PatientInfoController.cs" />
     <Compile Include="Controllers\PatientsController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
@@ -213,6 +214,7 @@
     <Compile Include="Models\Hospital.cs" />
     <Compile Include="Models\MedicineContext.cs" />
     <Compile Include="Models\Patient.cs" />
+    <Compile Include="Models\PatientInfo.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

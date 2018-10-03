@@ -93,22 +93,37 @@ namespace patient_daily.Controllers
 
         private object PatientFind(string login, string password)
         {
-            Patient patient = db.Patients.Where(p => p.login == login).Include(p => p.Hospital).Single();
-            if (!Crypter.VerifyHashedPassword(patient.password, password))
+            try
             {
+                Patient patient = db.Patients.Where(p => p.login == login).Include(p => p.Hospital).Single();
+                if (!Crypter.VerifyHashedPassword(patient.password, password))
+                {
+                    return new object();
+                }
+                return patient;
+
+            }
+            catch (System.Exception)
+            { 
                 return new object();
             }
-            return patient;
         }
 
         private object HospitalFind(string login, string password)
         {
-            Hospital hospital = db.Hospitals.Where(p => p.login == login).Include(h => h.Patients).Single();
-            if (!Crypter.VerifyHashedPassword(hospital.password, password))
+            try
+            {
+                Hospital hospital = db.Hospitals.Where(p => p.login == login).Include(h => h.Patients).Single();
+                if (!Crypter.VerifyHashedPassword(hospital.password, password))
+                {
+                    return new object();
+                }
+                return hospital;
+            }
+            catch (System.Exception)
             {
                 return new object();
             }
-            return hospital;
         }
 
         private bool PatientFindByLogin(string login)

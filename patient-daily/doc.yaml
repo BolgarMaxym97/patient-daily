@@ -1,0 +1,269 @@
+swagger: "2.0"
+info:
+  version: 1.0.0
+  title: Hospitals
+  description: A sample API for hospitals
+host: localhost:55083
+basePath: /api/v1
+schemes:
+  - http
+  - https
+consumes:
+  - application/json
+produces:
+  - application/json
+paths:
+  /auth:
+    post:
+      tags:
+      - Auth-Register
+      description: |
+        Auth by pacient or hospital
+      operationId: auth
+      parameters:
+        - name: login
+          in: query
+          description: user login
+          required: true
+          type: string
+        - name: password
+          in: query
+          description: user password
+          required: true
+          type: string
+        - name: isHospital
+          in: query
+          description: user type (hospital - 1, patient - 0)
+          required: true
+          type: boolean
+      responses:
+        "200":
+          description: user object
+          schema:
+            type: array
+            items:
+              $ref: ""
+  /auth/register-hospital:
+    post:
+      tags:
+      - Auth-Register
+      description: |
+        Register new hospital
+      operationId: hospitalRegister
+      parameters: 
+        - name: login
+          in: query
+          description: new hospital login
+          required: true
+          type: string
+        - name: password
+          in: query
+          description: new hospital password
+          required: true
+          type: string
+        - name: hospital_name
+          in: query
+          description: new hospital name
+          required: true
+          type: string
+        - name: main_doctor
+          in: query
+          description: main doctor name
+          required: true
+          type: string
+        - name: address
+          in: query
+          description: new hospital address
+          required: true
+          type: string
+        - name: phone
+          in: query
+          description: new hospital phone
+          required: false
+          type: string
+        - name: email
+          in: query
+          description: new hospital email
+          required: false
+          type: string
+      responses:
+        "200":
+          description: hospital object
+          schema:
+            type: array
+            items:
+              $ref: ""
+  /auth/register-patient:
+    post:
+      tags:
+      - Auth-Register
+      description: |
+        Register new patient
+      operationId: patientRegister
+      parameters: 
+        - name: login
+          in: query
+          description: new patient login
+          required: true
+          type: string
+        - name: password
+          in: query
+          description: new patient password
+          required: true
+          type: string
+        - name: full_name
+          in: query
+          description: new patient name
+          required: true
+          type: string
+        - name: address
+          in: query
+          description: new patient address
+          required: false
+          type: string
+        - name: phone
+          in: query
+          description: new patient phone
+          required: false
+          type: string
+        - name: email
+          in: query
+          description: new patient email
+          required: false
+          type: string
+        - name: hospital_id
+          in: query
+          description: patient's hospital id
+          required: false
+          type: integer
+      responses:
+        "200":
+          description: patient object
+          schema:
+            type: array
+            items:
+              $ref: ""
+  /patient-info/create:
+    post:
+      tags:
+      - Patient
+      description: |
+        Register new patient
+      operationId: patientInfoCreate
+      parameters: 
+        - name: name
+          in: query
+          description: title for action
+          required: true
+          type: string
+        - name: text
+          in: query
+          description: description for action
+          required: true
+          type: string
+        - name: patient_id
+          in: query
+          description: patient_id for this action
+          required: false
+          type: string
+        - name: date
+          in: query
+          description: date for this action
+          required: false
+          type: string
+      responses:
+        "200":
+          description: patient-info object
+          schema:
+            type: array
+            items:
+              $ref: ""
+  /hospitals:
+    get:
+      tags:
+      - Hospital
+      description: |
+        Get hospitals
+      operationId: HospitalsList
+      responses:
+        "200":
+          description: array of hospitals with patients
+          schema:
+            type: array
+            items:
+              $ref: ""
+  /patients:
+    get:
+      tags:
+      - Patient
+      description: |
+        Get patients
+      operationId: PatientsList
+      responses:
+        "200":
+          description: array of patients with hospital
+          schema:
+            type: array
+            items:
+              $ref: ""
+  /patient/{id}:
+    get:
+      tags:
+      - Patient
+      description: |
+        Get patients by id
+      operationId: PatientByIdList
+      parameters: 
+        - name: id
+          in: path
+          description: id of patient
+          required: true
+          type: integer
+      responses:
+        "200":
+          description: pattient
+          schema:
+            type: array
+            items:
+              $ref: ""
+  /patient-info/{id}:
+    get:
+      tags:
+      - Patient
+      description: |
+        Get patient's medical history
+      operationId: PatientInfoList
+      parameters: 
+        - name: id
+          in: path
+          description: id of patient
+          required: true
+          type: integer
+      responses:
+        "200":
+          description: array of patient's medical history
+          schema:
+            type: array
+            items:
+              $ref: ""
+  /patient-reject:
+    post:
+      tags:
+      - Patient
+      description: |
+        Reject patient from hospital
+      operationId: patientRejectFromHospital
+      parameters: 
+        - name: id
+          in: query
+          description: patient's ID
+          required: true
+          type: integer
+      responses:
+        "200":
+          description: patient
+          schema:
+            type: array
+            items:
+              $ref: ""
+  

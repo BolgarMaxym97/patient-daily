@@ -16,13 +16,13 @@ namespace patient_daily.Controllers
     {
         private MedicineContext db = new MedicineContext();
 
-        // GET: api/Patients
+        // GET: api/patients
         public IQueryable<Patient> GetPatients()
         {
-            return db.Patients;
+            return db.Patients.Include(p => p.Hospital);
         }
 
-        // GET: api/Patients/5
+        // GET: api/patient/{id}
         [ResponseType(typeof(Patient))]
         public IHttpActionResult GetPatient(int id)
         {
@@ -33,6 +33,29 @@ namespace patient_daily.Controllers
             }
 
             return Ok(patient);
+        }
+
+        // GET: api/Patients/5
+        [ResponseType(typeof(PatientInfo))]
+        [HttpGet]
+        [Route("api/v1/patient-info/{id}")]
+        public IHttpActionResult GetPatientInfo(int id)
+        {
+            try
+            {
+                PatientInfo info = db.PatientInfo.Where(i => i.patient_id == id).First();
+                if (info == null)
+                {
+                    return NotFound();
+                }
+
+                return Ok(info);
+            }
+            catch (Exception)
+            {
+                return NotFound();
+            }
+           
         }
 
         // PUT: api/Patients/5
@@ -82,7 +105,35 @@ namespace patient_daily.Controllers
             db.Patients.Add(patient);
             db.SaveChanges();
 
-            return CreatedAtRoute("DefaultApi", new { id = patient.id }, patient);
+            return Ok(patient);
+        }
+
+        // POST: api/Patients
+        [ResponseType(typeof(Patient))]
+        [HttpPost]
+        [Route("api/v1/patient-reject")]
+        public IHttpActionResult PostPatientReject(int id)
+        {
+            Patient patient = db.Patients.Find(id);
+            patient.hospital_id = null;
+            patient.Hospital = null;
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+            db.Entry(patient).State = EntityState.Modified;
+
+            try
+            {
+                db.SaveChanges();
+            }
+            catch (DbUpdateConcurrencyException)
+            {
+                return BadRequest(ModelState);
+            }
+
+            return Ok(patient);
         }
 
         // DELETE: api/Patients/5

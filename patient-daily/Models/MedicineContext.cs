@@ -10,5 +10,6 @@ namespace patient_daily.Models
     {
         public DbSet<Hospital> Hospitals { get; set; }
         public DbSet<Patient> Patients { get; set; }
+        public DbSet<PatientInfo> PatientInfo { get; set; }
     }
 }

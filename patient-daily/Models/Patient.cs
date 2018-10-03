@@ -22,5 +22,12 @@ namespace patient_daily.Models
         public int? hospital_id { get; set; }
         public Hospital Hospital { get; set; }
 
+        public ICollection<PatientInfo> PatientInfo { get; set; }
+
+        public Patient()
+        {
+            PatientInfo = new List<PatientInfo>();
+        }
+
     }
 }
