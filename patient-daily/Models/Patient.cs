@@ -18,14 +18,9 @@ namespace patient_daily.Models
         public string address { get; set; }
         public DateTime? created_at { get; set; } = DateTime.Now;
         public DateTime? updated_at { get; set; } = DateTime.Now;
-
+        [ForeignKey("Hospital")]
         public int? hospital_id { get; set; }
         public Hospital Hospital { get; set; }
-
-        public Patient ()
-        {
-            Hospital = new Hospital();
-        }
 
     }
 }

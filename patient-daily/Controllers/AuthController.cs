@@ -68,7 +68,7 @@ namespace patient_daily.Controllers
                 return BadRequest("This login already exist");
             }
             patient.password = Crypter.HashPassword(patient.password);
-            patient.Hospital = db.Hospitals.Where(h => h.id == patient.hospital_id).Single();
+            patient.Hospital = db.Hospitals.Where(h => h.id == patient.hospital_id).First();
             db.Patients.Add(patient);
             try
             {
@@ -91,9 +91,14 @@ namespace patient_daily.Controllers
             base.Dispose(disposing);
         }
 
-        private IEnumerable<Patient> PatientFind(string login, string password)
+        private object PatientFind(string login, string password)
         {
-            return db.Patients.Where(p => p.login == login).Where(p => p.password == Crypter.HashPassword(password)).Include(p => p.Hospital);
+            Patient patient = db.Patients.Where(p => p.login == login).Include(p => p.Hospital).Single();
+            if (!Crypter.VerifyHashedPassword(patient.password, password))
+            {
+                return new object();
+            }
+            return patient;
         }
 
         private object HospitalFind(string login, string password)
