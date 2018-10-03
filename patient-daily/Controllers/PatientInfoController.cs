@@ -72,7 +72,7 @@ namespace patient_daily.Controllers
 
         // POST: api/v1/PatientInfo
         [ResponseType(typeof(PatientInfo))]
-        [Route("api/v1/auth/patient-info/create")]
+        [Route("api/v1/patient-info/create")]
         public IHttpActionResult PostPatientInfoCreate(PatientInfo patientInfo)
         {
             if (!ModelState.IsValid)
