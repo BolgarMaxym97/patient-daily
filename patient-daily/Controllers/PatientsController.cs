@@ -43,7 +43,7 @@ namespace patient_daily.Controllers
         {
             try
             {
-                PatientInfo info = db.PatientInfo.Where(i => i.patient_id == id).First();
+                var info = db.PatientInfo.Where(i => i.patient_id == id);
                 if (info == null)
                 {
                     return NotFound();
