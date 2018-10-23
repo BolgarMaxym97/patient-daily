@@ -18,5 +18,13 @@ namespace patient_daily.Controllers
             var hospitals = db.Hospitals.Include(h => h.Patients);
             return hospitals.ToArray();
         }
+
+        // GET api/v1/hospitals-info
+        [Route("api/v1/hospitals-info")]
+        public IEnumerable<Hospital> GetHospitalsNames()
+        {
+            var hospitals = db.Hospitals.ToArray();
+            return hospitals;
+        }
     }
 }
